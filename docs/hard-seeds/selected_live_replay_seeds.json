@@ -1,0 +1,437 @@
+[
+  {
+    "block_size_tokens": 16,
+    "capacity_blocks": 100,
+    "event_sequence": [
+      {
+        "event_type": "claim",
+        "prefix_id": "A"
+      },
+      {
+        "event_type": "claim",
+        "prefix_id": "B"
+      },
+      {
+        "event_type": "claim",
+        "prefix_id": "C"
+      },
+      {
+        "event_type": "prefill",
+        "prefix_id": "A"
+      },
+      {
+        "event_type": "prefill",
+        "prefix_id": "B"
+      },
+      {
+        "event_type": "prefill",
+        "prefix_id": "C"
+      },
+      {
+        "event_type": "pressure",
+        "pressure_blocks": 20
+      },
+      {
+        "event_type": "return",
+        "prefix_id": "A"
+      },
+      {
+        "event_type": "return",
+        "prefix_id": "B"
+      },
+      {
+        "event_type": "return",
+        "prefix_id": "C"
+      }
+    ],
+    "exact_falsifier": "Falsified if live BlockPool replay ranks naive_fair_share with nonzero useful cached-prefix reuse comparable to complete-prefix policies; thresholded survival predicts naive_fair_share collapses.",
+    "expected_abstract_block_ordering": {
+      "ordered_policies": [
+        "naive_fair_share",
+        "complete_prefix_fair_share",
+        "native",
+        "oracle",
+        "value_density"
+      ],
+      "scores": {
+        "complete_prefix_fair_share": 12.0,
+        "naive_fair_share": 13.9,
+        "native": 12.0,
+        "oracle": 12.0,
+        "value_density": 12.0
+      },
+      "surface": "abstract_block_value"
+    },
+    "expected_live_vllm_ordering_if_blockpool_is_thresholded": [
+      "complete_prefix_fair_share",
+      "oracle",
+      "value_density",
+      "native",
+      "naive_fair_share"
+    ],
+    "expected_thresholded_contiguous_ordering": {
+      "ordered_policies": [
+        "complete_prefix_fair_share",
+        "oracle",
+        "value_density",
+        "native",
+        "naive_fair_share"
+      ],
+      "scores": {
+        "complete_prefix_fair_share": 18.0,
+        "naive_fair_share": 0.0,
+        "native": 8.0,
+        "oracle": 18.0,
+        "value_density": 18.0
+      },
+      "surface": "thresholded_contiguous_value"
+    },
+    "explanation": "Naive fair-share protects below-threshold fragments; abstract block scoring likes that, thresholded contiguous scoring does not.",
+    "export_quality": {
+      "expected_live_falsifier": "Falsified if live BlockPool replay ranks naive_fair_share with nonzero useful cached-prefix reuse comparable to complete-prefix policies; thresholded survival predicts naive_fair_share collapses.",
+      "mapping_risk": "medium",
+      "native_saturation_risk": "low",
+      "policy_separation_margin": 10.0,
+      "pressure_risk": "medium",
+      "surface_disagreement_score": 1.0,
+      "threshold_sensitivity": 13.9
+    },
+    "mode": "microruntime_to_vllm_hard_seed",
+    "prefixes": [
+      {
+        "block_count": 60,
+        "full_reuse_value": 10.0,
+        "prefix_id": "A",
+        "tenant_id": "t1",
+        "threshold_blocks": 40,
+        "threshold_rule": "fixed_blocks:40",
+        "threshold_tokens": 640,
+        "token_count": 960,
+        "useful_threshold_blocks": 40
+      },
+      {
+        "block_count": 60,
+        "full_reuse_value": 8.0,
+        "prefix_id": "B",
+        "tenant_id": "t2",
+        "threshold_blocks": 40,
+        "threshold_rule": "fixed_blocks:40",
+        "threshold_tokens": 640,
+        "token_count": 960,
+        "useful_threshold_blocks": 40
+      },
+      {
+        "block_count": 20,
+        "full_reuse_value": 4.0,
+        "prefix_id": "C",
+        "tenant_id": "t3",
+        "threshold_blocks": 40,
+        "threshold_rule": "fixed_blocks:40",
+        "threshold_tokens": 640,
+        "token_count": 320,
+        "useful_threshold_blocks": 40
+      }
+    ],
+    "pressure_blocks": 20,
+    "pressure_decomposition": {
+      "capacity_headroom_before_return": 0,
+      "explicit_pressure_blocks": 20,
+      "prefill_blocks": 140,
+      "prefill_over_capacity_blocks": 40,
+      "total_pressure_blocks": 60
+    },
+    "required_materialization_surface": "direct BlockPool/free-queue ownership hook or telemetry-equivalent live replay that reports contiguous cached prefix survival",
+    "seed_id": "hard-seed-fair_share_fragmentation",
+    "source_regime": "fair_share_fragmentation"
+  },
+  {
+    "block_size_tokens": 16,
+    "capacity_blocks": 80,
+    "event_sequence": [
+      {
+        "event_type": "claim",
+        "prefix_id": "small_hot"
+      },
+      {
+        "event_type": "claim",
+        "prefix_id": "small_warm"
+      },
+      {
+        "event_type": "claim",
+        "prefix_id": "bulky"
+      },
+      {
+        "event_type": "prefill",
+        "prefix_id": "small_hot"
+      },
+      {
+        "event_type": "prefill",
+        "prefix_id": "small_warm"
+      },
+      {
+        "event_type": "prefill",
+        "prefix_id": "bulky"
+      },
+      {
+        "event_type": "pressure",
+        "pressure_blocks": 20
+      },
+      {
+        "event_type": "return",
+        "prefix_id": "small_hot"
+      },
+      {
+        "event_type": "return",
+        "prefix_id": "small_warm"
+      },
+      {
+        "event_type": "return",
+        "prefix_id": "bulky"
+      }
+    ],
+    "exact_falsifier": "Falsified if live replay cannot separate compact value-density claims from the bulky footprint under the same pressure, or if complete_prefix_fair_share clearly beats value_density.",
+    "expected_abstract_block_ordering": {
+      "ordered_policies": [
+        "naive_fair_share",
+        "oracle",
+        "value_density",
+        "complete_prefix_fair_share",
+        "native"
+      ],
+      "scores": {
+        "complete_prefix_fair_share": 13.0,
+        "naive_fair_share": 19.561904761904763,
+        "native": 11.142857142857142,
+        "oracle": 17.0,
+        "value_density": 17.0
+      },
+      "surface": "abstract_block_value"
+    },
+    "expected_live_vllm_ordering_if_blockpool_is_thresholded": [
+      "oracle",
+      "value_density",
+      "complete_prefix_fair_share",
+      "naive_fair_share",
+      "native"
+    ],
+    "expected_thresholded_contiguous_ordering": {
+      "ordered_policies": [
+        "oracle",
+        "value_density",
+        "complete_prefix_fair_share",
+        "naive_fair_share",
+        "native"
+      ],
+      "scores": {
+        "complete_prefix_fair_share": 13.0,
+        "naive_fair_share": 0.0,
+        "native": 0.0,
+        "oracle": 17.0,
+        "value_density": 17.0
+      },
+      "surface": "thresholded_contiguous_value"
+    },
+    "explanation": "Value-density spends scarce useful-prefix budget on compact claims instead of one bulky lower-density footprint.",
+    "export_quality": {
+      "expected_live_falsifier": "Falsified if live replay cannot separate compact value-density claims from the bulky footprint under the same pressure, or if complete_prefix_fair_share clearly beats value_density.",
+      "mapping_risk": "medium",
+      "native_saturation_risk": "low",
+      "policy_separation_margin": 4.0,
+      "pressure_risk": "medium",
+      "surface_disagreement_score": 1.0,
+      "threshold_sensitivity": 19.561904761904763
+    },
+    "mode": "microruntime_to_vllm_hard_seed",
+    "prefixes": [
+      {
+        "block_count": 30,
+        "full_reuse_value": 9.0,
+        "prefix_id": "small_hot",
+        "tenant_id": "t2",
+        "threshold_blocks": 30,
+        "threshold_rule": "fixed_blocks:30",
+        "threshold_tokens": 480,
+        "token_count": 480,
+        "useful_threshold_blocks": 30
+      },
+      {
+        "block_count": 30,
+        "full_reuse_value": 8.0,
+        "prefix_id": "small_warm",
+        "tenant_id": "t3",
+        "threshold_blocks": 30,
+        "threshold_rule": "fixed_blocks:30",
+        "threshold_tokens": 480,
+        "token_count": 480,
+        "useful_threshold_blocks": 30
+      },
+      {
+        "block_count": 70,
+        "full_reuse_value": 13.0,
+        "prefix_id": "bulky",
+        "tenant_id": "t1",
+        "threshold_blocks": 70,
+        "threshold_rule": "fixed_blocks:70",
+        "threshold_tokens": 1120,
+        "token_count": 1120,
+        "useful_threshold_blocks": 70
+      }
+    ],
+    "pressure_blocks": 20,
+    "pressure_decomposition": {
+      "capacity_headroom_before_return": 0,
+      "explicit_pressure_blocks": 20,
+      "prefill_blocks": 130,
+      "prefill_over_capacity_blocks": 50,
+      "total_pressure_blocks": 70
+    },
+    "required_materialization_surface": "direct BlockPool/free-queue ownership hook or telemetry-equivalent live replay that reports contiguous cached prefix survival",
+    "seed_id": "hard-seed-footprint_pressure_density",
+    "source_regime": "footprint_pressure_density"
+  },
+  {
+    "block_size_tokens": 16,
+    "capacity_blocks": 100,
+    "event_sequence": [
+      {
+        "event_type": "claim",
+        "prefix_id": "low_value_tenant"
+      },
+      {
+        "event_type": "claim",
+        "prefix_id": "hot_same_tenant"
+      },
+      {
+        "event_type": "claim",
+        "prefix_id": "warm_same_tenant"
+      },
+      {
+        "event_type": "prefill",
+        "prefix_id": "low_value_tenant"
+      },
+      {
+        "event_type": "prefill",
+        "prefix_id": "hot_same_tenant"
+      },
+      {
+        "event_type": "prefill",
+        "prefix_id": "warm_same_tenant"
+      },
+      {
+        "event_type": "pressure",
+        "pressure_blocks": 20
+      },
+      {
+        "event_type": "return",
+        "prefix_id": "low_value_tenant"
+      },
+      {
+        "event_type": "return",
+        "prefix_id": "hot_same_tenant"
+      },
+      {
+        "event_type": "return",
+        "prefix_id": "warm_same_tenant"
+      }
+    ],
+    "exact_falsifier": "Falsified if live replay does not show the fair-round allocator paying value for the low-value tenant when value_density keeps the two high-value same-tenant prefixes useful.",
+    "expected_abstract_block_ordering": {
+      "ordered_policies": [
+        "native",
+        "oracle",
+        "value_density",
+        "naive_fair_share",
+        "complete_prefix_fair_share"
+      ],
+      "scores": {
+        "complete_prefix_fair_share": 24.0,
+        "naive_fair_share": 34.65,
+        "native": 38.0,
+        "oracle": 38.0,
+        "value_density": 38.0
+      },
+      "surface": "abstract_block_value"
+    },
+    "expected_live_vllm_ordering_if_blockpool_is_thresholded": [
+      "native",
+      "oracle",
+      "value_density",
+      "complete_prefix_fair_share",
+      "naive_fair_share"
+    ],
+    "expected_thresholded_contiguous_ordering": {
+      "ordered_policies": [
+        "native",
+        "oracle",
+        "value_density",
+        "complete_prefix_fair_share",
+        "naive_fair_share"
+      ],
+      "scores": {
+        "complete_prefix_fair_share": 24.0,
+        "naive_fair_share": 0.0,
+        "native": 38.0,
+        "oracle": 38.0,
+        "value_density": 38.0
+      },
+      "surface": "thresholded_contiguous_value"
+    },
+    "explanation": "Complete-prefix fair-share reserves a fair round for the low-value tenant; value-density uses both useful spans on the high-value tenant.",
+    "export_quality": {
+      "expected_live_falsifier": "Falsified if live replay does not show the fair-round allocator paying value for the low-value tenant when value_density keeps the two high-value same-tenant prefixes useful.",
+      "mapping_risk": "medium",
+      "native_saturation_risk": "high",
+      "policy_separation_margin": 14.0,
+      "pressure_risk": "medium",
+      "surface_disagreement_score": 0.0,
+      "threshold_sensitivity": 34.65
+    },
+    "mode": "microruntime_to_vllm_hard_seed",
+    "prefixes": [
+      {
+        "block_count": 40,
+        "full_reuse_value": 4.0,
+        "prefix_id": "low_value_tenant",
+        "tenant_id": "t1",
+        "threshold_blocks": 40,
+        "threshold_rule": "fixed_blocks:40",
+        "threshold_tokens": 640,
+        "token_count": 640,
+        "useful_threshold_blocks": 40
+      },
+      {
+        "block_count": 40,
+        "full_reuse_value": 20.0,
+        "prefix_id": "hot_same_tenant",
+        "tenant_id": "t2",
+        "threshold_blocks": 40,
+        "threshold_rule": "fixed_blocks:40",
+        "threshold_tokens": 640,
+        "token_count": 640,
+        "useful_threshold_blocks": 40
+      },
+      {
+        "block_count": 40,
+        "full_reuse_value": 18.0,
+        "prefix_id": "warm_same_tenant",
+        "tenant_id": "t2",
+        "threshold_blocks": 40,
+        "threshold_rule": "fixed_blocks:40",
+        "threshold_tokens": 640,
+        "token_count": 640,
+        "useful_threshold_blocks": 40
+      }
+    ],
+    "pressure_blocks": 20,
+    "pressure_decomposition": {
+      "capacity_headroom_before_return": 0,
+      "explicit_pressure_blocks": 20,
+      "prefill_blocks": 120,
+      "prefill_over_capacity_blocks": 20,
+      "total_pressure_blocks": 40
+    },
+    "required_materialization_surface": "direct BlockPool/free-queue ownership hook or telemetry-equivalent live replay that reports contiguous cached prefix survival",
+    "seed_id": "hard-seed-fairness_tax_density_wins",
+    "source_regime": "fairness_tax_density_wins"
+  }
+]

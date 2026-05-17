@@ -1,0 +1,128 @@
+{
+  "active_attention_mode": "full_attention",
+  "active_chunk_sequence": [
+    20,
+    20,
+    20,
+    10
+  ],
+  "active_live_blocks_by_step": [
+    20,
+    40,
+    60,
+    70
+  ],
+  "active_prefill_prefix": {
+    "block_count": 70,
+    "full_reuse_value": 13.0,
+    "prefix_id": "bulky",
+    "tenant_id": "t3",
+    "threshold_blocks": 70,
+    "threshold_tokens": 1120,
+    "token_count": 1120
+  },
+  "active_total_blocks": 70,
+  "block_size_tokens": 16,
+  "capacity_blocks": 80,
+  "event_sequence": [
+    {
+      "event_type": "resident_claims",
+      "prefix_ids": [
+        "small_hot",
+        "small_warm"
+      ]
+    },
+    {
+      "event_type": "resident_prefill",
+      "prefix_id": "small_hot"
+    },
+    {
+      "event_type": "resident_prefill",
+      "prefix_id": "small_warm"
+    },
+    {
+      "event_type": "active_prefill",
+      "prefix_id": "bulky"
+    },
+    {
+      "event_type": "return",
+      "prefix_id": "small_hot"
+    },
+    {
+      "event_type": "return",
+      "prefix_id": "small_warm"
+    },
+    {
+      "event_type": "return",
+      "prefix_id": "bulky"
+    }
+  ],
+  "exact_falsifier": "Falsified if cache-all active prefill does not break the compact resident thresholds, or if no-cache/density-gated active prefill fails to preserve small_hot and small_warm at threshold value 17.",
+  "expected_blocked_step": 2,
+  "expected_live_if_cache_all_active_prefill": {
+    "active_prefill_decision": "cache_admit",
+    "active_threshold_value": 13.0,
+    "net_value_delta": -17.0,
+    "resident_threshold_value": 0.0,
+    "thresholds_broken": [
+      "small_hot",
+      "small_warm"
+    ]
+  },
+  "expected_live_if_density_gated_active_prefill": {
+    "active_prefill_decision": "cache_no_admit",
+    "active_threshold_value": 0.0,
+    "net_value_delta": 0.0,
+    "resident_threshold_value": 17.0,
+    "thresholds_broken": []
+  },
+  "expected_live_if_disposable_active_prefill": {
+    "active_prefill_decision": "cache_no_admit",
+    "active_threshold_value": 0.0,
+    "net_value_delta": 0.0,
+    "resident_threshold_value": 17.0,
+    "thresholds_broken": []
+  },
+  "failure_labels": [
+    "active_live_kv_accumulation",
+    "protected_resident_headroom_exhausted",
+    "active_admission_blocked",
+    "resident_protection_requires_deferral",
+    "chunking_not_live_bounding",
+    "physical_capacity_infeasible"
+  ],
+  "feasibility": "physically_infeasible_without_scratch_offload_recompute_or_eviction",
+  "max_active_live_blocks": 70,
+  "mode": "active_prefill_cache_admission",
+  "pressure_decomposition": {
+    "active_prefill_blocks": 70,
+    "active_prefill_over_headroom_blocks": 50,
+    "explicit_filler_pressure_blocks": 0,
+    "resident_prefill_blocks": 60
+  },
+  "research_question": "Can compact resident spans survive if the bulky active prefill is served but not admitted into reusable KV cache?",
+  "resident_prefixes": [
+    {
+      "block_count": 30,
+      "full_reuse_value": 9.0,
+      "prefix_id": "small_hot",
+      "tenant_id": "t1",
+      "threshold_blocks": 30,
+      "threshold_tokens": 480,
+      "token_count": 480
+    },
+    {
+      "block_count": 30,
+      "full_reuse_value": 8.0,
+      "prefix_id": "small_warm",
+      "tenant_id": "t2",
+      "threshold_blocks": 30,
+      "threshold_tokens": 480,
+      "token_count": 480
+    }
+  ],
+  "resident_protected_blocks": 60,
+  "seed_id": "active-prefill-bulky-admission",
+  "unprotected_headroom_blocks": 20,
+  "usable_blocks": 80
+}

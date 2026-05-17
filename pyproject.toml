@@ -1,0 +1,13 @@
+[project]
+name = "kv-residency-microruntime"
+version = "0.1.0"
+description = "Ownership-level KV residency policy sandbox for scarce cache allocation research."
+requires-python = ">=3.11"
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
