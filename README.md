@@ -5,6 +5,11 @@ does not run models or replace vLLM. It models the ownership layer underneath
 prefix caching: claims, capacity, useful-prefix materialization, active live KV,
 future-reuse admission, refusal, demotion, expiry, and claim-level telemetry.
 
+Public context:
+
+- Paper/site page: <https://krooksn.dev/research/resident-claim-kv-cache>
+- vLLM arbiter artifact: <https://github.com/gustavgauge/kv-residency-vllm-arbiter>
+
 The MicroRuntime exists to make one contract testable:
 
 ```text
@@ -27,6 +32,9 @@ Out of scope: model execution, tokenization fidelity beyond block counts, GPU
 scheduling, production serving, learned prediction, and latency benchmarking.
 
 ## Quick Start
+
+No patched vLLM checkout is required for this repository. The tests and reports
+run against the local executable model.
 
 ```bash
 uv run --with pytest pytest -q
@@ -55,6 +63,13 @@ tests/                      # executable contract and regression traces
 scripts/                    # report rendering and seed export
 docs/                       # small generated seeds and decisions
 ```
+
+## What This Model Does Not Show
+
+This repository does not show model execution, GPU scheduling, production
+serving behavior, performance speedups, or native runtime support. It is a small
+semantic model for claim lifecycle, materialization, and active/resident
+capacity conflict.
 
 ## Relationship To The vLLM Artifact
 
